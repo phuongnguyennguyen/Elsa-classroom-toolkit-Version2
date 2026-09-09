@@ -65,4 +65,50 @@ $('#buzz').onclick=async()=>{syncStudent();if($('#buzz').disabled)return;student
 $('#loginForm').onsubmit=async e=>{e.preventDefault();$('#loginButton').disabled=true;$('#loginMsg').textContent='Đang đăng nhập…';try{await signInWithEmailAndPassword(auth,$('#email').value.trim(),$('#password').value);$('#password').value=''}catch(err){$('#loginMsg').textContent=explain(err)}finally{$('#loginButton').disabled=false}};
 $('#logout').onclick=async()=>{goOffline(db);await signOut(auth);location.reload()};
 try{await setPersistence(auth,browserSessionPersistence);await auth.authStateReady();$('#boot').hidden=true;if(window.studentMode)await startStudent();else{onAuthStateChanged(auth,user=>{if(user&&!user.isAnonymous&&!teacherReady)startTeacher(user);else if(!user){$('#login').hidden=false;$('#teacherHeader').hidden=true}})}}catch(e){$('#boot').textContent=explain(e)}
-</script></body></html>
+<<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Elsa Classroom Buzzer v2</title>
+</head>
+<body>
+
+    <h1>Ứng dụng Buzzer - Phiên bản 2</h1>
+
+    <script type="module">
+      // Import thư viện Firebase v10
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+      import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+      import { getDatabase } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+      // Đoạn cấu hình lấy trực tiếp từ dự án của bạn trên Firebase Console
+      const firebaseConfig = {
+        apiKey: "AIzaSyCq8GR15-t68N8KMTD25QaiD4m1jJdDLP0",
+        authDomain: "elsa-classroom-buzzer-ver2.firebaseapp.com",
+        databaseURL: "https://elsa-classroom-buzzer-ver2-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "elsa-classroom-buzzer-ver2",
+        storageBucket: "elsa-classroom-buzzer-ver2.firebasestorage.app",
+        messagingSenderId: "628461591277",
+        appId: "1:628461591277:web:e247d06fdfda4c72d50ae4",
+        measurementId: "G-7WWFLZ9YX0"
+      };
+
+      // Khởi tạo Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getDatabase(app);
+
+      console.log("Firebase đã được kết nối thành công!");
+
+      // Dành cho Sinh viên (Tự động đăng nhập ẩn danh khi truy cập)
+      signInAnonymously(auth)
+        .then(() => {
+          console.log("Đăng nhập ẩn danh thành công, UID:", auth.currentUser.uid);
+        })
+        .catch((error) => {
+          console.error("Lỗi đăng nhập ẩn danh:", error);
+        });
+    </script>
+
+</body>
+</html>></body></html>
